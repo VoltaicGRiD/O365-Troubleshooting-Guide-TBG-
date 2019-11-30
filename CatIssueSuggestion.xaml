@@ -1,0 +1,25 @@
+﻿<Controls:MetroWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TBG_WPF"
+         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" x:Class="TBG_WPF.CatIssueSuggestion"
+        mc:Ignorable="d"
+        Title="Category / Issue Suggestion" Height="288.296" Width="374.024">
+    <Grid>
+        <StackPanel>
+            <TextBlock TextWrapping="wrap" Margin="10,10,0,0" Width="450" Text="Are you suggesting a category or an issue?"/>
+            <RadioButton x:Name="CategoryRadio" Margin="10,10,0,0" Content="Category"></RadioButton>
+            <RadioButton x:Name="IssueRadio" IsChecked="True" Margin="10,5,0,0" Content="Issue"></RadioButton>
+            <TextBlock x:Name="TechnologyLabel" Margin="10,10,0,0" Foreground="Green" Text="You're under technology: "/>
+            <TextBox x:Name="SubmitterBox" Margin="10,10,10,0" mah:TextBoxHelper.Watermark="Put your name here" />
+            <TextBox x:Name="SuggestionBox" Margin="10,2,10,0" mah:TextBoxHelper.Watermark="Put your suggested addition here" />
+            <TextBox x:Name="CategoryBox" Margin="10,2,10,10" IsEnabled="{Binding ElementName=IssueRadio, Path=IsChecked, TargetNullValue=true}" mah:TextBoxHelper.Watermark="What category is this issue under?" />
+        </StackPanel>
+        <Button Content="Submit" Name="SubmitButton" Click="SubmitButton_Click" HorizontalAlignment="Left" Margin="10,199,0,0" VerticalAlignment="Top" Width="204"/>
+        <Button Content="Close" Name="CloseButton" Click="CloseButton_Click" HorizontalAlignment="Left" Margin="219,199,0,0" VerticalAlignment="Top" Width="137"/>
+        <TextBlock x:Name="ResponseLabel" TextWrapping="Wrap" Text="" Margin="10,231,10,10"/>
+    </Grid>
+</Controls:MetroWindow>

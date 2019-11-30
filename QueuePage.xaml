@@ -1,0 +1,226 @@
+﻿<Page x:Class="TBG_WPF.QueuePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TBG_WPF"
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1500"
+      Title="QueuePage">
+    <Grid Grid.Column="1" Panel.ZIndex="100" Name="QueueGrid" Background="Black">
+        <Button x:Name="QueueManagementButton" Visibility="Hidden" Width="80" MaxHeight="25" MinHeight="25" Panel.ZIndex="200" Background="DarkSlateGray" BorderBrush="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" Margin="0,0,-5,20" Click="QueueManagementButton_Click">
+            <TextBlock Foreground="LightBlue" FontSize="9" TextAlignment="Left" Text="&lt;&lt;  MANAGE " VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="0,-5"></TextBlock>
+        </Button>
+        <Button x:Name="QueueReportsButton" Visibility="Hidden" Width="80" MaxHeight="25" MinHeight="25" Panel.ZIndex="200" Background="DarkSlateGray" BorderBrush="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" Margin="0,0,-5,50" Click="QueueReportsButton_Click">
+            <TextBlock Foreground="LightBlue" FontSize="9" TextAlignment="Left" Text="&lt;&lt;  REPORTS " VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="0,-5"></TextBlock>
+        </Button>
+        <Button x:Name="QueueNewCaseButton" Visibility="Hidden" Width="80" MaxHeight="25" MinHeight="25" Panel.ZIndex="200" Background="DarkSlateGray" BorderBrush="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" Margin="0,0,-5,80" Click="QueueNewCaseButton_Click">
+            <TextBlock Foreground="LightBlue" FontSize="9" TextAlignment="Left" Text="&lt;&lt;  NEW CASE " VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="0,-5"></TextBlock>
+        </Button>
+        <Button x:Name="ViewExplanationsButton" Visibility="Hidden" Width="80" MaxHeight="25" MinHeight="25" Panel.ZIndex="200" Background="DarkSlateGray" BorderBrush="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="7" Margin="0,0,-5,110" Click="ViewExplanationsButton_Click">
+            <TextBlock Foreground="LightBlue" FontSize="9" TextAlignment="Left" Text="EXPLANATIONS" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="0,-5"></TextBlock>
+        </Button>
+        <Button x:Name="AddUnlistedCase" Visibility="Visible" Width="130" MaxHeight="25" MinHeight="25" Panel.ZIndex="30" Background="DarkGreen" BorderBrush="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="7" Margin="15,12,0,0" Click="AddUnlistedCaseButton_Click">
+            <TextBlock Foreground="White" FontSize="12" TextAlignment="Center" Text="Took unlisted case?" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-5"></TextBlock>
+        </Button>
+        <TextBox x:Name="UnlistedCaseNumber" Panel.ZIndex="500" TabIndex="1000" Visibility="Hidden" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,11,0,0" Width="80" Controls:TextBoxHelper.Watermark="Case #" KeyDown="UnlistedTextEnter"></TextBox>
+        <ComboBox x:Name="UnlistedCaseSeverity" TabIndex="202" Panel.ZIndex="600" Visibility="Hidden" HorizontalAlignment="Left" Width="105" VerticalAlignment="Top" Margin="235,11,0,0" Height="25" SelectedIndex="1">
+            <ComboBoxItem>A</ComboBoxItem>
+            <ComboBoxItem>B</ComboBoxItem>
+            <ComboBoxItem>C</ComboBoxItem>
+            <ComboBoxItem>B 24x7</ComboBoxItem>
+            <ComboBoxItem>Non-Critical</ComboBoxItem>
+        </ComboBox>
+        <ComboBox x:Name="UnlistedCaseQueue" TabIndex="202" Panel.ZIndex="600" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="345,11,0,0" Height="25" SelectedIndex="1">
+            <ComboBoxItem>Exchange</ComboBoxItem>
+            <ComboBoxItem>Outlook</ComboBoxItem>
+            <ComboBoxItem>Teams / SfB</ComboBoxItem>
+        </ComboBox>
+        <TextBlock x:Name="UnlistedCaseDateText" Text="Created:" Foreground="White" Margin="450,15,0,0"></TextBlock>
+        <DatePicker x:Name="UnlistedCaseDate" Margin="500,11,0,0" Visibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95"></DatePicker>
+        <Button x:Name="SubmitUnlistedCaseButton" Visibility="Hidden" TabIndex="1001" Width="100" MaxHeight="25" MinHeight="25" Panel.ZIndex="600" Background="DarkSlateGray" BorderBrush="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="7" Margin="600,12,0,0" Click="SubmitUnlistedCaseButton_Click">
+            <TextBlock Foreground="LightBlue" FontSize="12" TextAlignment="Center" Text="Submit" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-5"></TextBlock>
+        </Button>
+        <Button x:Name="AddExplanationButton" Visibility="Visible" Width="130" MaxHeight="25" MinHeight="25" Panel.ZIndex="30" Background="Maroon" BorderBrush="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="7" Margin="150,12,0,0" Click="AddExplanationButton_Click">
+            <TextBlock Foreground="White" FontSize="12" TextAlignment="Center" Text="Not taking a case?" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-5"></TextBlock>
+        </Button>
+        <TextBlock x:Name="ExplanationStatus" Visibility="Hidden" Panel.ZIndex="500" Text="Your explanation was submitted, thank you." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="290,15,0,0"></TextBlock>
+        <TextBox x:Name="ExplanationText" Panel.ZIndex="500" TabIndex="1000" Visibility="Hidden" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="285,11,0,20" Width="400" Controls:TextBoxHelper.Watermark="Add explanation here" KeyDown="ExplanationTextEnter"></TextBox>
+        <Button x:Name="SubmitExplanationButton" Visibility="Hidden" TabIndex="1001" Width="100" MaxHeight="25" MinHeight="25" Panel.ZIndex="30" Background="DarkSlateGray" BorderBrush="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="7" Margin="690,12,0,0" Click="SubmitExplanationButton_Click">
+            <TextBlock Foreground="LightBlue" FontSize="12" TextAlignment="Center" Text="Submit" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-5"></TextBlock>
+        </Button>
+        <TextBox x:Name="TransferApprovedByText" Panel.ZIndex="500" TabIndex="1000" Visibility="Hidden" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,11,125,20" Width="200" Controls:TextBoxHelper.Watermark="Who approved this transfer?" KeyDown="SubmitTransferTextEnter"></TextBox>
+        <Button x:Name="SubmitTransferButton" Visibility="Hidden" TabIndex="1001" Width="40" MaxHeight="25" MinHeight="25" Panel.ZIndex="30" Background="DarkSlateGray" BorderBrush="White" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="7" Margin="0,12,80,0" Click="SubmitTransferButton_Click">
+            <TextBlock Foreground="LightBlue" FontSize="12" TextAlignment="Center" Text="OK" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-5"></TextBlock>
+        </Button>
+        <TextBlock Visibility="Visible" Panel.ZIndex="500" Text="Taken today:" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="800,15,0,0"></TextBlock>
+        <TextBlock x:Name="TakenCount" FontWeight="Bold" Visibility="Visible" Panel.ZIndex="500" Text="88" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="870,-3,0,0" FontSize="36"></TextBlock>
+        <Label Visibility="Hidden" Name="CheckeredFlag" Foreground="White" Width="35" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="900,2,0,0" RenderTransformOrigin="0.5,0.5">
+            <Label.Triggers>
+                <EventTrigger RoutedEvent="Label.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                    Storyboard.TargetName="CheckeredFlagSkewY"
+                                    Storyboard.TargetProperty="AngleY"
+                                    From="0" To="10" Duration="0:0:1"
+                                    AutoReverse="True" RepeatBehavior="Forever">
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Label.Triggers>
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform x:Name="CheckeredFlagSkewY" AngleY="0"/>
+                    <RotateTransform Angle="45"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Icons:Material Kind="FlagCheckered" Height="30" Width="30"/>
+        </Label>
+        <TextBlock Visibility="Visible" Panel.ZIndex="500" Text="Closed today:" Foreground="LimeGreen" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="950,15,0,0"></TextBlock>
+        <TextBlock x:Name="ClosedCount" FontWeight="Bold" Visibility="Visible" Foreground="LimeGreen" Panel.ZIndex="500" Text="88" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1025,-3,0,0" FontSize="36"></TextBlock>
+        <ListView x:Name="CasesDataGrid" Margin="10,45,10,10">
+            <ListView.View>
+                <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="GridViewColumnHeader">
+                            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="Black"/>
+                            <Setter Property="BorderBrush" Value="Black"></Setter>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Open"  Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Open" Margin="-5,0,-5,0" Width="48" CommandParameter="{Binding CaseLink}" Click="OpenCaseButtonClick"></Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Que" Width="30">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontWeight="DemiBold" FontSize="20" Text="{Binding Queue}">
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="50" Header="Posted">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Width="35" HorizontalAlignment="Left" TextAlignment="Center" Text="{Binding PostedString}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Case #" Width="70">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Width="55" TextAlignment="Center" Text="{Binding CaseID}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Sev" Width="30">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontWeight="DemiBold" FontSize="20" Text="{Binding Severity}">
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Description" Width="467">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding DisplayDescription}" Tag="{Binding CaseID}" PreviewMouseLeftButtonDown="DisplayFullDescription"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Taken By" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Width="135" TextAlignment="Center" Text="{Binding TakenBy}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="At" Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Width="35" TextAlignment="Center" Text="{Binding TakenAtString}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Taken" Width="60">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Taken" Margin="-5,0,-5,0" Width="48" CommandParameter="{Binding CaseID}" IsEnabled="{Binding CanTake}" Click="TakeCaseButton_Click"></Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Tran." Width="50" DisplayMemberBinding="{Binding Transferred}"></GridViewColumn>
+                        <GridViewColumn Header="App. By" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Width="135" TextAlignment="Center" Text="{Binding TransferApprovedBy}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Age" Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Width="35" TextAlignment="Center" Text="{Binding Age, NotifyOnSourceUpdated=True}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Action" Width="70">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Transfer" Margin="-5,0,-5,0" Width="68" CommandParameter="{Binding CaseID}" IsEnabled="{Binding CanTransfer}" Click="TransferCaseButton_Click"></Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Action" Width="70">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Closed" Margin="-5,0,-5,0" Width="68" CommandParameter="{Binding CaseID}" IsEnabled="{Binding CanTransfer}" Click="CloseCaseButton_Click"></Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Delete" Width="70">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" Margin="-5,0,-5,0" Width="68" CommandParameter="{Binding ID}" IsEnabled="{Binding CanDelete}" Click="DeleteCaseButton_Click"></Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Background" Value="{Binding Color}"></Setter>
+                    <Setter Property="Foreground" Value="{Binding TextColor}"></Setter>
+                    <Setter Property="BorderThickness" Value="4"/>
+                    <Setter Property="BorderBrush" Value="{Binding SeverityColor}"></Setter>
+                    <Setter Property="Margin" Value="0,0,0,0"/>
+                    <Setter Property="VerticalAlignment" Value="Top"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="Control.IsMouseOver" Value="True">
+                            <Setter Property="Control.Background" Value="LightBlue" />
+                            <Setter Property="Control.Foreground" Value="Black"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Control.Background" Value="Transparent" />
+                            <Setter Property="Control.Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Page>

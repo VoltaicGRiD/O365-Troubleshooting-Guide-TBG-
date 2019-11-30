@@ -1,0 +1,145 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TBG_WPF"
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" x:Class="TBG_WPF.ReportingPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="535" d:DesignWidth="1800"
+      Title="ReportingPage">
+
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.RowSpan="2">
+            <TextBlock Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="Reporting / Item Modifications" Margin="10,10,0,0" Foreground="White" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="10,10,0,0">Use the textbox below to run a query agains the SQL database where cases and other information is held.</TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="20,2,0,0">
+                <Run Text="- Use a "></Run>
+                <Run Foreground="Wheat" Text="'SELECT' "></Run>
+                <Run Text="to pull data"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="20,2,0,0">
+                <Run Text="- Use an "></Run>
+                <Run Foreground="Wheat" Text="'UPDATE' "></Run>
+                <Run Text="to change / add data to existing record"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="20,2,0,0">
+                <Run Text="- Use a "></Run>
+                <Run Foreground="Wheat" Text="'DELETE' "></Run>
+                <Run Text="to delete an existing record"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="20,2,0,0">
+                <Run Text="- Use a "></Run>
+                <Run Foreground="Wheat" Text="'WHERE' "></Run>
+                <Run Text="to conditionalize results"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="10,10,0,0">
+                <Run Foreground="Wheat" Text="Example 1:"></Run>
+                <Run Text=" Select CaseID, Owner, Severity From OwnedCases Where Owner='Dustin Conlon (Tek Experts)'"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="10,10,0,0">
+                <Run Foreground="Wheat" Text="Example 2:"></Run>
+                <Run Text=" Select * From OwnedCases Where ClosedOn='2020-05-17'"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="10,10,0,0">
+                <Run Foreground="Wheat" Text="Example 3:"></Run>
+                <Run Text=" Select * From Explanations"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="10,10,0,0">
+                <Run Foreground="Wheat" Text="Example 4:"></Run>
+                <Run Text=" Select Skills From Skills Where Engineer='Steven Finch (Tek Experts)'"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="10,10,0,0">
+                <Run Foreground="Wheat" Text="Example 5:"></Run>
+                <Run Text=" Update OwnedCases Set Owner='David Schatz (Tek Experts)' Where CaseID='12345678'"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="10,10,0,0">
+                <Run Foreground="Wheat" Text="Example 6:"></Run>
+                <Run Text=" Update Cases Set TakenBy='External Agent' Where CaseID='87654321'"></Run>
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Foreground="White" Margin="10,10,0,0">
+                <Run Foreground="Wheat" Text="Example 7:"></Run>
+                <Run Text=" Delete From OwnedCases Where Owner='Justin Lawrence (Tek Experts)'"></Run>
+            </TextBlock>
+            <TextBox x:Name="QueryBox" Margin="10,25,10,0" IsEnabled="False"></TextBox>
+            <Button Margin="10,5,10,0" Width="200" HorizontalAlignment="Left" Click="Button_Click" IsEnabled="False">Run Query</Button>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+            <TextBlock Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="Add a Case" Margin="10,10,0,0" Foreground="White" FontSize="20"/>
+            <TextBox TabIndex="100" Name="CaseNumber" Margin="10,25,10,0" mah:TextBoxHelper.Watermark="Case #"/>
+            <DatePicker TabIndex="101" Name="CreatedDate" Margin="10,10,10,0" mah:TextBoxHelper.Watermark="Created"/>
+            <ComboBox TabIndex="102" Name="SeverityComboBox" Margin="10,10,10,0" mah:TextBoxHelper.Watermark="Severity">
+                <ComboBoxItem>A</ComboBoxItem>
+                <ComboBoxItem>A 24x7</ComboBoxItem>
+                <ComboBoxItem>Critical</ComboBoxItem>
+                <ComboBoxItem>B</ComboBoxItem>
+                <ComboBoxItem>B 24x7</ComboBoxItem>
+                <ComboBoxItem>C</ComboBoxItem>
+                <ComboBoxItem>Non-Critical</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Name="SkillsComboBox" SelectionChanged="FalseSelectionHandler" Grid.Column="0" MaxDropDownHeight="2000" TabIndex="103" Margin="10,10,10,0" mah:TextBoxHelper.Watermark="Assumed Skill(s)">
+                <ComboBoxItem IsEnabled="False" FontWeight="Bold" Foreground="Wheat">Exchange Online</ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Name="EXOSkills"></StackPanel>
+                </ComboBoxItem>
+                <Separator></Separator>
+                <ComboBoxItem IsEnabled="False" FontWeight="Bold" Foreground="Wheat">Exchange Server</ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Name="ExchSkills"></StackPanel>
+                </ComboBoxItem>
+                <Separator></Separator>
+                <ComboBoxItem IsEnabled="False" FontWeight="Bold" Foreground="Wheat">Outlook</ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Name="OutSkills"></StackPanel>
+                </ComboBoxItem>
+                <Separator></Separator>
+                <ComboBoxItem IsEnabled="False" FontWeight="Bold" Foreground="Wheat">Teams / Skype for Business</ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Name="LyncSkills"></StackPanel>
+                </ComboBoxItem>
+            </ComboBox>
+            <TextBox x:Name="Description" Margin="10,10,10,0" AcceptsReturn="True" TextWrapping="Wrap" Height="280" mah:TextBoxHelper.Watermark="Description"></TextBox>
+            <Button Margin="10,10,10,0" Content="Add Case" Click="AddCase"/>
+        </StackPanel>
+        <StackPanel Grid.Column="4" Grid.Row="0" Grid.RowSpan="2">
+            <TextBlock Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="Case / Queue Functions (Work in Progress)" Margin="10,10,0,0" Foreground="White" FontSize="20"/>
+            <TextBlock Margin="10,25,10,0" Foreground="White">
+                <Run Text="Assign Case" Foreground="Wheat"></Run>
+                <Run Text=" - This will send an email to the Engineer, letting them know" Foreground="White"></Run>
+            </TextBlock>
+            <ComboBox IsEnabled="False" Margin="10,10,10,0" mah:TextBoxHelper.Watermark="Engineer"></ComboBox>
+            <Button IsEnabled="False" Margin="10,10,10,0" Content="Assign Case" Click="AddCase"/>
+            <TextBlock Margin="10,25,10,0" Foreground="White">
+                <Run Text="Remove Case" Foreground="Wheat"></Run>
+                <Run Text=" - This will remove a case from the queue" Foreground="White"></Run>
+            </TextBlock>
+            <Grid Margin="10,10,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ComboBox IsEnabled="False" Grid.Column="0" Margin="0,0,5,0" mah:TextBoxHelper.Watermark="Case #"></ComboBox>
+                <TextBox IsEnabled="False" Grid.Column="1" Margin="5,0,0,0" mah:TextBoxHelper.Watermark="Case #"></TextBox>
+            </Grid>
+            <Button IsEnabled="False" Margin="10,10,10,0" Content="Remove Case" Click="AddCase"/>
+            <TextBlock Margin="10,25,0,0">
+                <Run Text="Engineers with CritSits" Foreground="Wheat"></Run>
+                <Run Text=" - This list will auto-update periodically" Foreground="White"></Run>
+            </TextBlock>
+            <WrapPanel Grid.RowSpan="2" Margin="10,10,10,10" x:Name="CritEngineers"/>
+        </StackPanel>
+    </Grid>
+</Page>
+
+    
+    
+    

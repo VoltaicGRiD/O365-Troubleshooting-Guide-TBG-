@@ -1,0 +1,136 @@
+﻿<Controls:MetroWindow x:Class="TBG_WPF.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TBG_WPF"
+        xmlns:Icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="TBG Administration Portal" Height="900" Width="1700" ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="217*"/>
+            <ColumnDefinition Width="1475*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" FontSize="19" Text="Modify TBG Data" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="143"/>
+        <ComboBox TabIndex="0" Grid.Column="0" x:Name="TechnologyBox" Margin="10,40,5,797" SelectionChanged="TechnologyChanged" Controls:TextBoxHelper.Watermark="I need help with"/>
+        <ComboBox TabIndex="1" Grid.Column="0" x:Name="CategoryBox" Margin="10,77,5,760" SelectionChanged="CategoryChanged" Controls:TextBoxHelper.Watermark="Specifically"/>
+        <ComboBox TabIndex="2" Grid.Column="0" x:Name="IssueBox" Margin="10,114,5,723" Controls:TextBoxHelper.Watermark="Where"/>
+        <Button TabIndex="3" x:Name="PullButton" Content="Pull Data" Margin="11,151,5,0" VerticalAlignment="Top" Click="PullButton_Click" Height="27"/>
+        <StackPanel Grid.Column="1" Name="GuidePanel">
+            <TextBox x:Name="WarningBox" Margin="5,10,10,0" Background="#4CFF0000" VerticalAlignment="top" Height="40" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.UseFloatingWatermark="True" Controls:TextBoxHelper.Watermark="Warning Label - Put crucial information here." Grid.Column="1"></TextBox>
+            <Expander Margin="5,5,10,0" Header="Troubleshooting" Expanded="ExpanderExpanded">
+                <Grid Height="205">
+                    <TextBox x:Name="TbsBox" VerticalScrollBarVisibility="Visible" VerticalAlignment="top" Height="170" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.UseFloatingWatermark="True" Controls:TextBoxHelper.Watermark="Trouleshooting information                Separate steps with new lines                Use &quot;(img)&quot; to import a screenshot" Grid.Column="1" AcceptsReturn="True" TextChanged="TbsTextChanged"/>
+                    <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="200" Content="Upload Screenshot" Name="UploadScreenshotsButton" Click="UploadScreenshotsButton_Click" Margin="0,0,0,0"></Button>
+                    <TextBlock VerticalAlignment="Bottom" Margin="210,0,0,6" HorizontalAlignment="Left" Text="* One screenshot at a time"></TextBlock>
+                    <TextBlock x:Name="UploadStatusText" VerticalAlignment="Bottom" Margin="370,0,0,6" HorizontalAlignment="Left" Text="Upload status: "></TextBlock>
+                </Grid>
+            </Expander>
+            <Expander Margin="5,5,10,0" Header="Peer Suggestions" Expanded="ExpanderExpanded">
+                <TextBox x:Name="PeerBox" VerticalScrollBarVisibility="Visible" VerticalAlignment="top" Height="170" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.UseFloatingWatermark="True" Controls:TextBoxHelper.Watermark="Peer-provided suggestions                Separate entries with new lines" AcceptsReturn="True" TextChanged="PeerTextChanged"/>
+            </Expander>
+            <Expander Margin="5,5,10,0" Header="Documentation and Links" Expanded="ExpanderExpanded">
+                <TextBox x:Name="DocuBox" VerticalScrollBarVisibility="Visible" VerticalAlignment="top" Height="170" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.UseFloatingWatermark="True" Controls:TextBoxHelper.Watermark="Documentation / Links                Separate topic from link using '|' (pipe character), Separate entries with new lines               Example: 'Topic you want to display | https://www.domain.com/Link-You-Want-To-Navigate-To'" AcceptsReturn="True" TextChanged="DocuTextChanged"/>
+            </Expander>
+            <Expander Margin="5,5,10,0" Header="Training Documents" Expanded="ExpanderExpanded">
+                <TextBox x:Name="TrainingBox" VerticalScrollBarVisibility="Visible" VerticalAlignment="top" Height="170" Controls:TextBoxHelper.AutoWatermark="True" Controls:TextBoxHelper.UseFloatingWatermark="True" Controls:TextBoxHelper.Watermark="Links ONLY - do not include a header or topic                Separate with new lines" AcceptsReturn="True" TextChanged="TrainingTextChanged"/>
+            </Expander>
+            <Button TabIndex="8" Content="Submit Changes" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="184" x:Name="DataSubmitButton" Click="DataSubmitButton_Click"/>
+            <TextBlock HorizontalAlignment="Left" Margin="10,5,0,0" Text="Submission Status:" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Grid.Column="1"/>
+            <TextBlock x:Name="SubmissionLabel" HorizontalAlignment="Right" Margin="0,-15,20,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="1339" Height="16"/>
+            <DataGrid x:Name="SuggestionDataGrid" CanUserAddRows="False" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="195" Margin="5,20,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1460">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Submitted By" Width="150" IsReadOnly="True" Binding="{Binding SubmittedBy}"/>
+                    <DataGridTextColumn Header="Technology" Width="130" IsReadOnly="True" Binding="{Binding Technology}"/>
+                    <DataGridTextColumn Header="Category" Width="200" IsReadOnly="True" Binding="{Binding Category}"/>
+                    <DataGridTextColumn Header="Issue" Width="200" IsReadOnly="True" Binding="{Binding Issue}"/>
+                    <DataGridTextColumn Header="Suggestion" Width="8*" IsReadOnly="True" Binding="{Binding Suggestion}"/>
+                    <DataGridTemplateColumn Header="" Width="105" IsReadOnly="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Implemented" CommandParameter="{Binding ID}" Click="ImplementedButton_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="" Width="60" IsReadOnly="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Delete" CommandParameter="{Binding ID}" Click="DeleteButton_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <Button Content="Post  New  Warning  or  alert" HorizontalAlignment="Left" Margin="11,242,0,0" VerticalAlignment="Top" Width="196" Foreground="#FFFFE800" Click="OpenAlertBox_Click" />
+        
+        <Grid IsHitTestVisible="True" x:Name="AlertGrid" Visibility="Collapsed" Background="#99000000" Grid.ColumnSpan="2">
+            <Border BorderBrush="White" Background="Black" BorderThickness="2" CornerRadius="10" Width="500" Grid.Column="1" Height="250">
+                <Grid>
+                    <TextBlock Margin="10,10,10,0" VerticalAlignment="Top" Foreground="White" FontSize="14" Text="Enter alert text below:"></TextBlock>
+                    <TextBox AcceptsReturn="True" TextWrapping="Wrap" x:Name="AlertTextBox" Width="480" Height="145" Margin="0,35,0,0" VerticalAlignment="Top"></TextBox>
+                    <Button x:Name="AlertSubmitButton" Width="480" VerticalAlignment="Bottom" Margin="0,0,0,30" Content="Click to Submit and push warning" Click="AlertSubmitButton_Click"></Button>
+                    <RadioButton Content="Warning" VerticalAlignment="top" HorizontalAlignment="Right" Margin="0,10,180,0" IsChecked="True" Name="WarningRadio" Checked="WarningRadio_Checked"></RadioButton>
+                    <RadioButton Content="Alert" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,120,0" Name="AlertRadio" Checked="AlertRadio_Checked"></RadioButton>
+                    <Button VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,3,2,0" Background="{x:Null}" BorderBrush="{x:Null}" Click="CloseAlertBox_Click">
+                        <Icons:Material Kind="CloseBox"></Icons:Material>
+                    </Button>
+                    <TextBlock Foreground="LightGreen" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,10,7" Name="AlertSubmissionText"></TextBlock>
+                </Grid>
+            </Border>
+        </Grid>
+        <Button Content="Create new Issue" HorizontalAlignment="Left" Margin="11,332,0,0" VerticalAlignment="Top" Width="196" Click="CreateIssue_Clicked" />
+        <Grid IsHitTestVisible="True" x:Name="NewIssueGrid" Visibility="Hidden" Background="#99000000" Grid.ColumnSpan="2">
+            <Border BorderBrush="White" Background="Black" BorderThickness="2" CornerRadius="10" Width="500" HorizontalAlignment="Center" VerticalAlignment="Center" Height="110">
+                <Grid>
+                    <TextBlock Margin="10,10,10,0" VerticalAlignment="Top" Foreground="White" FontSize="14" Text="Enter issue title below:"></TextBlock>
+                    <TextBox AcceptsReturn="True" TextWrapping="Wrap" x:Name="NewIssueTextBox" Width="480" Height="25" Margin="8,35,8,0" VerticalAlignment="Top"></TextBox>
+                    <Button x:Name="NewIssueSubmitButton" Width="480" VerticalAlignment="Bottom" Margin="8,0,8,8" Content="Click to Submit and create new Issue" Click="NewIssueSubmitButton_Click"></Button>
+                    <Button VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,3,2,0" Background="{x:Null}" BorderBrush="{x:Null}" Click="CloseNewIssueGrid_Click">
+                        <Icons:Material Kind="CloseBox"></Icons:Material>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid IsHitTestVisible="True" x:Name="SelectCategoryGrid" Visibility="Hidden" Background="#99000000" Grid.ColumnSpan="2">
+            <Border BorderBrush="White" Background="Black" BorderThickness="2" CornerRadius="10" Width="500" HorizontalAlignment="Center" VerticalAlignment="Center" Height="700">
+                <Grid>
+                    <TextBlock Margin="10,10,10,0" VerticalAlignment="Top" Foreground="White" FontSize="14" Text="Select a category for this issue to be added to below:"></TextBlock>
+                    <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="DetailsFilter" Margin="10,35,10,0" Width="200" Height="25" TextChanged="DetailsFilterTextChanged" Controls:TextBoxHelper.Watermark="Filter"></TextBox>
+                    <TreeView x:Name="DetailsPane" Margin="10,70,10,42">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="IsExpanded" Value="True"/>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                    <Button x:Name="SelectCategorySubmitButton" Width="480" VerticalAlignment="Bottom" Margin="8,0,8,10" Content="Click to Submit and new issue to selected category" Click="SelectedCategory_Click"></Button>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Button Content="Create new Category" HorizontalAlignment="Left" Margin="11,300,0,0" VerticalAlignment="Top" Width="196" Click="CreateCategory_Click" />
+        <Grid IsHitTestVisible="True" x:Name="NewCategoryGrid" Visibility="Hidden" Background="#99000000" Grid.ColumnSpan="2">
+            <Border BorderBrush="White" Background="Black" BorderThickness="2" CornerRadius="10" Width="500" HorizontalAlignment="Center" VerticalAlignment="Center" Height="250">
+                <Grid>
+                    <TextBlock Margin="10,10,10,0" VerticalAlignment="Top" Foreground="White" FontSize="14" Text="Select a technology where this category belongs:"></TextBlock>
+                    <ComboBox x:Name="TechnologyBox2" VerticalAlignment="Top" Margin="8,35,8,0"/>
+                    <TextBlock Margin="10,75,10,0" VerticalAlignment="Top" Foreground="White" FontSize="14" Text="Enter category title below:"></TextBlock>
+                    <TextBox TabIndex="150" AcceptsReturn="True" TextWrapping="Wrap" x:Name="NewCategoryTextBox" Width="480" Height="25" Margin="8,100,8,0" VerticalAlignment="Top" TextChanged="NewCategoryBoxTextChanged"></TextBox>
+                    <Button TabIndex="152" x:Name="NewCategorySubmitButton" Width="480" VerticalAlignment="Bottom" Margin="8,0,8,8" Content="Click to Submit and create new Category" Click="NewCategorySubmitButton_Click"></Button>
+                    <TextBlock x:Name="NewIssueFromCategoryLabel" Margin="10,140,10,0" VerticalAlignment="Top" Foreground="White" FontSize="14" Text="Enter issue title below (Suggestion: ):"></TextBlock>
+                    <TextBox TabIndex="151" AcceptsReturn="True" TextWrapping="Wrap" x:Name="NewIssueFromCategoryTextBox" Width="480" Height="25" Margin="8,165,8,0" VerticalAlignment="Top" Controls:TextBoxHelper.Watermark="DO NOT use &quot;General&quot;, or the title of any other issue"></TextBox>
+                    <Button VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,3,2,0" Background="{x:Null}" BorderBrush="{x:Null}" Click="CloseNewCategoryGrid_Click">
+                        <Icons:Material Kind="CloseBox"></Icons:Material>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>
